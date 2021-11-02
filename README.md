@@ -4,8 +4,6 @@
 ## [배포주소]
 3.34.185.87:8000
 
-<br>
-
 ## 기술스택
 
 python, django, djongo, mongodb, postman, jwt, bcrypt, AWS ec2, atlas
@@ -15,11 +13,7 @@ python, django, djongo, mongodb, postman, jwt, bcrypt, AWS ec2, atlas
 박치훈 - 댓글 CRUD    <br>
 이기용 - 게시글 CRUD 
 
-<br>
-
 ## 구현사항 상세
-
-<br>
 
 ### 회원가입
 
