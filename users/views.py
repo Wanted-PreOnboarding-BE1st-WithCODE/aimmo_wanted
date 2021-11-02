@@ -2,18 +2,14 @@ import json, re, bcrypt, jwt
 
 from django.http  import JsonResponse
 from django.views import View
-from django.contrib.sessions.backends.db import SessionStore
 
 from users.models import User
-
 from my_settings  import SECRET_KEY, ALGORITHM
-from users.utils import login_decorator
 
 class SignUpView(View):
   def post(self, request):
     try:
-      data = json.loads(request.body)
-
+      data     = json.loads(request.body)
       name     = data['name']
       password = data['password']
       email    = data['email']
@@ -30,7 +26,7 @@ class SignUpView(View):
       if User.objects.filter(email = email).exists():
         return JsonResponse({'MESSAGE' : 'DUPLICATED_EMAIL'}, status = 409)
 
-      hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+      hashed_password  = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
       decoded_password = hashed_password.decode('utf-8')
 
       User.objects.create(
@@ -56,10 +52,11 @@ class SignInView(View):
         return JsonResponse({'MESSAGE' : 'INVALID_EMAIL'}, status = 401)
 
       user = User.objects.get(email = email)
+      
       if not bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
         return JsonResponse({'MESSAGE' : 'INVALID_PASSWORD'}, status = 401)
 
-      access_token = jwt.encode({'id' : user.id}, SECRET_KEY, algorithm = ALGORITHM)
+      access_token            = jwt.encode({'id' : user.id}, SECRET_KEY, algorithm = ALGORITHM)
       request.session['user'] = user.id
 
       return JsonResponse({'ACCESS_TOKEN' : access_token}, status = 200)
