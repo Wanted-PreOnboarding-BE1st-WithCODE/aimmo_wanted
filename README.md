@@ -1,3 +1,6 @@
+## 기술스택
+
+python, django, djongo, mongodb, postman, jwt, bcrypt, AWS ec2, atlas
 # Team With CODE
 
 <br>
@@ -145,7 +148,3 @@ GET /postings/comment/{int:comment_id} <br>
 - page당 5개의 댓글로 기획하여 querystring으로 page 값을 받아 pagination을 구현하였습니다.
 
 - Unit Test
-
-## 기술스택
-
-python, django, djongo, mongodb, postman, jwt, bcrypt, AWS ec2, atlas
