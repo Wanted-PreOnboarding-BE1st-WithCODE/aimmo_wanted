@@ -91,10 +91,10 @@ headers / Authorization : token
 
 - Unit Test
 
-### 댓글 등록
+### 댓글, 대댓글 등록
 
-POST / <br>
-body key list : content <br>
+POST /postings/comments/{int:posting_id} <br>
+body key list : content(필수), parent_comment_id <br>
 headers / Authorization : token
 
 - Path Parameter로 식별된 게시글에 댓글을 등록합니다.
@@ -103,40 +103,48 @@ headers / Authorization : token
 
 - Unit Test
 
-### 대댓글 등록
+### 댓글 조회
 
-POST / <br>
-body key list : content <br>
-headers / Authorization : token
+GET /postings/comments/{int:posting_id} <br>
 
-- Path Parameter로 식별된 게시글에 등록된 댓글에 댓글을 등록합니다.
+- Path Parameter로 식별된 게시글에 등록된 댓글을 조회합니다.
 
-- 로그인 유저만 등록할 수 있습니다.
-
-- Unit Test
-
-### 댓글/대댓글 조회
-
-GET / <br>
-
-- Path Parameter로 식별된 게시글에 등록된 댓글과 해당 댓글에 댓글을 조회합니다.
-
-- 댓글과 대댓글 모두 offset, limit을 이용한 pagination 기법을 사용하였습니다.
+- page당 5개의 댓글로 기획하여 querystring으로 page 값을 받아 pagination을 구현하였습니다.
 
 - Unit Test
 
 ### 댓글/대댓글 삭제
 
-DELETE / <br>
+DELETE /postings/comment/{int:comment_id} <br>
 headers / Authorization : token <br>
 
-- Path Parameter로 식별된 게시글에 등록된 댓글과 해당 댓글의 댓글을 삭제합니다.
-
-- 댓글 삭제 시, 대댓글까지 삭제되는 경우는 없기 때문에 on_delete=models.SET_NULL 을 사용하였습니다.
+- Path Parameter로 식별된 댓글 및 대댓글을 삭제합니다.
 
 - 해당 댓글들을 작성한 유저만 삭제할 수 있습니다.
 
-<br>
+- Unit Test
+
+### 댓글/대댓글 수정
+
+PATCH /postings/comment/{int:comment_id} <br>
+body key list : content
+headers / Authorization : token <br>
+
+- Path Parameter로 식별된 댓글 및 대댓글을 수정합니다.
+
+- 해당 댓글들을 작성한 유저만 수정할 수 있습니다.
+
+- Unit Test
+
+### 대댓글 조회
+
+GET /postings/comment/{int:comment_id} <br>
+
+- Path Parameter로 식별된 댓글의 대댓글을 조회합니다.
+
+- page당 5개의 댓글로 기획하여 querystring으로 page 값을 받아 pagination을 구현하였습니다.
+
+- Unit Test
 
 ## 기술스택
 
