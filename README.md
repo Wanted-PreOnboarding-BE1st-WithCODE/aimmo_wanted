@@ -148,4 +148,4 @@ GET /postings/comment/{int:comment_id} <br>
 
 ## 기술스택
 
-python, django, djongo
+python, django, djongo, mongodb, postman, jwt, bcrypt, AWS ec2, atlas
