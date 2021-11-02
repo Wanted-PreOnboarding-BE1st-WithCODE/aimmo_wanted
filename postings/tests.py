@@ -1,4 +1,5 @@
 import json
+from django.http import response
 
 from django.test import TestCase, Client
 
@@ -27,7 +28,7 @@ class PostingViewTest(TestCase) :
     def test_success_posting_view_register_posting(self) :
         client = Client()
 
-        headers = {'HTTP_Authorization' : 'token'}
+        headers = {'HTTP_Authorization' : 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Mn0.BkBGhl60HeVatsYVwjkXFcrr6XYdNaPyICZSXH9nIP0'}
 
         posting_info = {
             'id'       : 4,
@@ -47,7 +48,7 @@ class PostingViewTest(TestCase) :
     def test_falure_caused_by_key_error_posting_view_register_posting(self) :
         client = Client()
 
-        headers = {'HTTP_Authorization' : 'token'}
+        headers = {'HTTP_Authorization' : 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Mn0.BkBGhl60HeVatsYVwjkXFcrr6XYdNaPyICZSXH9nIP0'}
 
         posting_info = {
             'id'       : 4,
@@ -67,7 +68,7 @@ class PostingViewTest(TestCase) :
     def test_failure_caused_by_model_does_not_exists_error_posting_view_register_posting(self) :
         client = Client()
 
-        headers = {'HTTP_Authorization' : 'token'}
+        headers = {'HTTP_Authorization' : 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Mn0.BkBGhl60HeVatsYVwjkXFcrr6XYdNaPyICZSXH9nIP0'}
 
         posting_info = {
             'id'       : 4,
@@ -120,7 +121,7 @@ class PostingParamViewTest(TestCase) :
     def test_success_modify_posting_posting_view(self) :
         client = Client()
 
-        headers = {'HTTP_Authorization' : 'token'}
+        headers = {'HTTP_Authorization' : 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Mn0.BkBGhl60HeVatsYVwjkXFcrr6XYdNaPyICZSXH9nIP0'}
 
         posting_info = {
             'title' : 'new update title'
@@ -136,7 +137,7 @@ class PostingParamViewTest(TestCase) :
     def test_failure_caused_posting_does_not_exist_modify_posting(self) :
         client = Client()
 
-        headers = {'HTTP_Authorization' : 'token'}
+        headers = {'HTTP_Authorization' : 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Mn0.BkBGhl60HeVatsYVwjkXFcrr6XYdNaPyICZSXH9nIP0'}
 
         posting_info = {
             'title' : 'update title new'
@@ -152,7 +153,7 @@ class PostingParamViewTest(TestCase) :
     def test_success_delete_posting_param_view(self) :
         client = Client()
 
-        headers = {'HTTP_Authorization' : 'token'}        
+        headers = {'HTTP_Authorization' : 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Mn0.BkBGhl60HeVatsYVwjkXFcrr6XYdNaPyICZSXH9nIP0'}        
 
         response = client.delete('/postings/1', **headers)
 
@@ -164,11 +165,18 @@ class PostingParamViewTest(TestCase) :
     def test_failure_caused_posting_does_not_exists_delete_posting(self) :
         client = Client()
 
-        headers = {'HTTP_Authorization' : 'token'} 
+        headers = {'HTTP_Authorization' : 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Mn0.BkBGhl60HeVatsYVwjkXFcrr6XYdNaPyICZSXH9nIP0'} 
 
-        response = client.delete('/postings/10')
+        response = client.delete('/postings/10', **headers)
 
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.json(),{
             'message' : 'Posting matching query does not exist'
         })      
+    
+    def test_success_get_list_posting_param_view(self) :
+        client = Client()
+
+        response = client.get('/postings/1')
+
+        self.assertEqual(response.status_code, 200)

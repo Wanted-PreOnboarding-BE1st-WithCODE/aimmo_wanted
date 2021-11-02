@@ -2,10 +2,12 @@ import json, re, bcrypt, jwt
 
 from django.http  import JsonResponse
 from django.views import View
+from django.contrib.sessions.backends.db import SessionStore
 
 from users.models import User
 
 from my_settings  import SECRET_KEY, ALGORITHM
+from users.utils import login_decorator
 
 class SignUpView(View):
   def post(self, request):
@@ -58,6 +60,8 @@ class SignInView(View):
         return JsonResponse({'MESSAGE' : 'INVALID_PASSWORD'}, status = 401)
 
       access_token = jwt.encode({'id' : user.id}, SECRET_KEY, algorithm = ALGORITHM)
+      request.session['user'] = user.id
+
       return JsonResponse({'ACCESS_TOKEN' : access_token}, status = 200)
 
     except KeyError:
