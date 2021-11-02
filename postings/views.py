@@ -2,21 +2,22 @@ import json
 
 from django.http      import JsonResponse
 from django.views     import View
-from django.db.models import Q
+from django.db.models import Q, F
 
 from postings.models  import (
     Category, 
     Posting
 )
 from users.models     import User
+from users.utils      import login_decorator
 
 class PostingView(View) :
-    #@login_decorator
+    @login_decorator
     def post(self, request) :
         try :
             data = json.loads(request.body)
 
-            user     = User.objects.get(id=1) #request.user
+            user     = request.user
             category = Category.objects.get(id=data['category'])
             
             Posting.objects.create(
@@ -59,16 +60,32 @@ class PostingView(View) :
 
 class PostingParamView(View) :
     def get(self, request, posting_id) :
-        try : #특정 번호의 포스트 조회 / 같은유저면 조회수 증가x 
-            postings = Posting.objects.get(id=posting_id)
-            
-            print(request.session.__dict__)
+        try : 
+            user_id = request.session.get('user', None)
 
-           # return JsonResponse({'login_session', login_session}, status=200)
+            posting = Posting.objects.get(id = posting_id)
+
+            posting_list = [{
+                'id'          : posting.id,
+                'title'       : posting.title,
+                'content'     : posting.content,
+                'writer_id'   : posting.user_id,
+                'writer_name' : User.objects.get(id=posting.user_id).name
+            }]
+
+            if not user_id :
+
+                posting.views += 1
+                posting.save()
+
+                return JsonResponse({'message' : 'Success and increase views', 'posting_list' : posting_list}, status=200)
+            
+            return JsonResponse({'message' : 'Success but not increase views', 'posting_list' : posting_list}, status=200)
         
         except Posting.DoesNotExist :
             return JsonResponse({'message' : 'Posting matching query does not exist'})
-    #@login_decorator
+
+    @login_decorator
     def post(self, request, posting_id) :
         try :
             data = json.loads(request.body)
@@ -90,7 +107,7 @@ class PostingParamView(View) :
         except Posting.DoesNotExist :
             return JsonResponse({'message' : 'Posting matching query does not exist'}, status=400)
 
-    #@login_decorator
+    @login_decorator
     def delete(self, request, posting_id) :
         try :
             posting = Posting.objects.get(id=posting_id)

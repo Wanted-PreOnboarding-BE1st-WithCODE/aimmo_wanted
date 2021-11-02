@@ -151,3 +151,6 @@ CORS_ALLOW_HEADERS = (
     'x-csrftoken',
     'x-requested-with'
 )
+
+SESSION_COOKIE_AGE = 600
+SESSION_SAVE_EVERY_REQUEST = True
