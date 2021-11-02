@@ -9,8 +9,8 @@
 
 ## 팀 구성
 김민호 - 회원가입/로그인 구현(users app)<br>
-박치훈 - 댓글 CRUD   (postings app에서 게시글과 댓글 함께 작성) <br>
-이기용 - 게시글 CRUD (postings app에서 게시글과 댓글 함께 작성)
+박치훈 - 댓글 CRUD    <br>
+이기용 - 게시글 CRUD 
 
 <br>
 
