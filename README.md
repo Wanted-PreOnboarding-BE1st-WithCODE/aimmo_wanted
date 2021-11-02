@@ -1,6 +1,4 @@
-## 기술스택
 
-python, django, djongo, mongodb, postman, jwt, bcrypt, AWS ec2, atlas
 # Team With CODE
 
 <br>
@@ -9,6 +7,10 @@ python, django, djongo, mongodb, postman, jwt, bcrypt, AWS ec2, atlas
 [url](url)
 
 <br>
+
+## 기술스택
+
+python, django, djongo, mongodb, postman, jwt, bcrypt, AWS ec2, atlas
 
 ## 팀 구성
 김민호 - 회원가입/로그인 구현 <br>
